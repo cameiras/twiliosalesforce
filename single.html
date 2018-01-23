@@ -259,8 +259,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<h4 class="m-sing">$21.00 <span>$25.00</span></h4>
 						</div>
 						<div class="snipcart-details agileinfo_single_right_details">
-							<form action="#" method="post">
+							<form id="formSubmit" action="https://hackday-developer-edition.na78.force.com/services/apexrest/twillio">
 								<fieldset>
+									<input type="hidden" name="action" value="trackActivity">
+									<input type="hidden" name="cmId" value="" id="cmId">
+									<input type="hidden" name="activityStatus" value="Responded">
 									<input type="hidden" name="cmd" value="_cart">
 									<input type="hidden" name="add" value="1">
 									<input type="hidden" name="business" value=" ">
@@ -270,7 +273,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<input type="hidden" name="currency_code" value="USD">
 									<input type="hidden" name="return" value=" ">
 									<input type="hidden" name="cancel_return" value=" ">
-									<input type="submit" name="submit" value="Add to cart" class="button">
+									<input type="hidden" name="cmd" value="_cart">
+									<input type="submit" name="submit" value="BUY" class="button">
 								</fieldset>
 							</form>
 						</div>
@@ -552,7 +556,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				easingType: 'linear'
 				};
 			*/
-
+			//$(".minicart-subtotal").append("<div style='float: right'><button onclick='alert(\"ciao\")'>Pay</button></div>");
 			$().UItoTop({ easingType: 'easeOutQuart' });
 
 			});
@@ -562,7 +566,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script>
 	// Mini Cart
 	paypal.minicart.render({
-		action: '#'
+		action: 'www.google.com',
+		strings: {
+        button: "Caisse"
+			}
 	});
 
 	if (~window.location.search.indexOf('reset=true')) {
@@ -573,12 +580,47 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="js/skdslider.min.js"></script>
 <link href="css/skdslider.css" rel="stylesheet">
 <script type="text/javascript">
+
+
 		jQuery(document).ready(function(){
+			var params = "";
+			function getJsonFromUrl() {
+			  var query = location.search.substr(1);
+			  var result = {};
+			  query.split("&").forEach(function(part) {
+			    var item = part.split("=");
+			    result[item[0]] = decodeURIComponent(item[1]);
+			  });
+			  return result;
+			}
+			params = getJsonFromUrl();
+			document.getElementById('cmId').value= params["cmId"] ;
+
+			$('#formSubmit').submit(function(event){
+				debugger;
+				event.preventDefault();
+				alert('THANK FOR BUYING!');
+				$.ajax({
+					url: 'https://hackday-developer-edition.na78.force.com/services/apexrest/twillio',
+					method: 'GET',
+					data: {cmId:params["cmId"],activityStatus:"Sent"},
+					dataType: 'jsonp',
+					'Accept': 'application/x-javascript',
+					'contentType': 'application/x-javascript',
+					success: function(data){
+						window.location.replace('/index.html');
+					}
+				});
+			});
+
+
+
 			jQuery('#demo1').skdslider({'delay':5000, 'animationSpeed': 2000,'showNextPrev':true,'showPlayButton':true,'autoSlide':true,'animationType':'fading'});
 
 			jQuery('#responsive').change(function(){
 			  $('#responsive_wrapper').width(jQuery(this).val());
 			});
+
 
 		});
 </script>
