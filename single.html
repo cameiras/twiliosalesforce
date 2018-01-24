@@ -263,9 +263,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<fieldset>
 									<input type="hidden" name="action" value="trackActivity">
 									<input type="hidden" name="cmId" value="" id="cmId">
+									<input type="hidden" name="productId" value="" id="productId">
 									<input type="hidden" name="activityStatus" value="Responded">
 									<input type="hidden" name="cmd" value="_cart">
-									<input type="hidden" name="add" value="1">
+									<input type="hidden" name="add" value="1" id="amountPurchased">
 									<input type="hidden" name="business" value=" ">
 									<input type="hidden" name="item_name" value="KHARAMORRA Khakra - Hariyali">
 									<input type="hidden" name="amount" value="25.00">
@@ -595,13 +596,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			}
 			params = getJsonFromUrl();
 			document.getElementById('cmId').value= params["cmId"] ;
+			document.getElementById('productId').value= params["productId"] ;
 
 			$('#formSubmit').submit(function(event){
 				event.preventDefault();
+				var amountPurchased = document.getElementById('amountPurchased');
 				$.ajax({
 					url: 'https://hackday-developer-edition.na78.force.com/services/apexrest/twillio',
 					method: 'GET',
-					data: {action:'trackActivity',cmId:params["cmId"],activityStatus:"Responded"},
+					data: {action:'trackActivity',cmId:params["cmId"],activityStatus:"Purchased",productId:params["productId"],amount:amountPurchased},
 					dataType: 'json',
 					'Accept': '*',
 					'Access-Control-Allow-Origin': '*',
