@@ -597,6 +597,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			params = getJsonFromUrl();
 			document.getElementById('cmId').value= params["cmId"] ;
 			document.getElementById('productId').value= params["productId"] ;
+
+			$.ajax({
+				url: 'https://hackday-developer-edition.na78.force.com/services/apexrest/twillio',
+				method: 'GET',
+				data: {action:'clicked',cmId:params["cmId"]},
+				dataType: 'json',
+				'Accept': '*',
+				'Access-Control-Allow-Origin': '*',
+				'contentType': 'application/json'
+			});
+
+
+
 			var amountPurchased = document.getElementById('amountPurchased').value;
 			$('#formSubmit').submit(function(event){
 				event.preventDefault();
