@@ -597,7 +597,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			params = getJsonFromUrl();
 			document.getElementById('cmId').value= params["cmId"] ;
 			document.getElementById('productId').value= params["productId"] ;
-			var amountPurchased = document.getElementById('amountPurchased');
+			var amountPurchased = document.getElementById('amountPurchased').value;
 			$('#formSubmit').submit(function(event){
 				event.preventDefault();
 
