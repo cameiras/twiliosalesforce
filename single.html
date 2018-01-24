@@ -603,12 +603,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				$.ajax({
 					url: 'https://hackday-developer-edition.na78.force.com/services/apexrest/twillio',
 					method: 'GET',
-					data: {action:'trackActivity',cmId:params["cmId"],activityStatus:"Sent"},
+					data: {action:'trackActivity',cmId:params["cmId"],activityStatus:"Responded"},
 					dataType: 'json',
 					'Accept': '*',
 					'Access-Control-Allow-Origin': '*',
 					'contentType': 'application/json',
-					success: function(data){
+					 complete: function(data){
 						window.location.replace('/index.html');
 					}
 				});
