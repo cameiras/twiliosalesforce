@@ -604,8 +604,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					url: 'https://hackday-developer-edition.na78.force.com/services/apexrest/twillio',
 					method: 'GET',
 					data: {cmId:params["cmId"],activityStatus:"Sent"},
-					dataType: 'jsonp',
-					'Accept': 'application/json',
+					dataType: 'json',
+					'Accept': '*',
+					'Access-Control-Allow-Origin': '*',
 					'contentType': 'application/json',
 					success: function(data){
 						window.location.replace('/index.html');
