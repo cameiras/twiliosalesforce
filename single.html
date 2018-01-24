@@ -597,10 +597,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			params = getJsonFromUrl();
 			document.getElementById('cmId').value= params["cmId"] ;
 			document.getElementById('productId').value= params["productId"] ;
-
+			var amountPurchased = document.getElementById('amountPurchased');
 			$('#formSubmit').submit(function(event){
 				event.preventDefault();
-				var amountPurchased = document.getElementById('amountPurchased');
+
 				$.ajax({
 					url: 'https://hackday-developer-edition.na78.force.com/services/apexrest/twillio',
 					method: 'GET',
