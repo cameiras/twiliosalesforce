@@ -215,7 +215,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="container">
 			<ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
 				<li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
-				<li class="active">Singlepage</li>
+				<li class="active">MACBOOK PRO</li>
 			</ol>
 		</div>
 	</div>
@@ -257,7 +257,7 @@ Two Thunderbolt 3 ports</p>
 							<h4 class="m-sing">$1,199.00 <span>$1,299.00</span></h4>
 						</div>
 						<div class="snipcart-details agileinfo_single_right_details">
-							<form action="#" method="post">
+							<!--<form action="#" method="post">
 								<fieldset>
 									<input type="hidden" name="cmd" value="_cart">
 									<input type="hidden" name="add" value="1">
@@ -269,6 +269,25 @@ Two Thunderbolt 3 ports</p>
 									<input type="hidden" name="return" value=" ">
 									<input type="hidden" name="cancel_return" value=" ">
 									<input type="submit" name="submit" value="Add to cart" class="button">
+								</fieldset>
+							</form>-->
+							<form id="formSubmit" action="https://hackday-developer-edition.na78.force.com/services/apexrest/twillio">
+								<fieldset>
+									<input type="hidden" name="action" value="trackActivity">
+									<input type="hidden" name="cmId" value="" id="cmId">
+									<input type="hidden" name="productId" value="" id="productId">
+									<input type="hidden" name="activityStatus" value="Responded">
+									<input type="hidden" name="cmd" value="_cart">
+									<input type="hidden" name="add" value="1" id="amountPurchased">
+									<input type="hidden" name="business" value=" ">
+									<input type="hidden" name="item_name" value="13-inch MacBook Pro">
+									<input type="hidden" name="amount" value="1299.00">
+									<input type="hidden" name="discount_amount" value="100.00">
+									<input type="hidden" name="currency_code" value="USD">
+									<input type="hidden" name="return" value=" ">
+									<input type="hidden" name="cancel_return" value=" ">
+									<input type="hidden" name="cmd" value="_cart">
+									<input type="submit" name="submit" value="BUY" class="button">
 								</fieldset>
 							</form>
 						</div>
@@ -572,6 +591,49 @@ Two Thunderbolt 3 ports</p>
 <link href="css/skdslider.css" rel="stylesheet">
 <script type="text/javascript">
 		jQuery(document).ready(function(){
+			var params = "";
+			function getJsonFromUrl() {
+			  var query = location.search.substr(1);
+			  var result = {};
+			  query.split("&").forEach(function(part) {
+			    var item = part.split("=");
+			    result[item[0]] = decodeURIComponent(item[1]);
+			  });
+			  return result;
+			}
+			params = getJsonFromUrl();
+			document.getElementById('cmId').value= params["cmId"] ;
+			document.getElementById('productId').value= params["productId"] ;
+
+			$.ajax({
+				url: 'https://hackday-developer-edition.na78.force.com/services/apexrest/twillio',
+				method: 'GET',
+				data: {action:'clicked',cmId:params["cmId"],activityStatus:"Clicked"},
+				dataType: 'json',
+				'Accept': '*',
+				'Access-Control-Allow-Origin': '*',
+				'contentType': 'application/json'
+			});
+
+
+
+			var amountPurchased = document.getElementById('amountPurchased').value;
+			$('#formSubmit').submit(function(event){
+				event.preventDefault();
+
+				$.ajax({
+					url: 'https://hackday-developer-edition.na78.force.com/services/apexrest/twillio',
+					method: 'GET',
+					data: {action:'trackActivity',cmId:params["cmId"],activityStatus:"Purchased",productId:params["productId"],amount:amountPurchased},
+					dataType: 'json',
+					'Accept': '*',
+					'Access-Control-Allow-Origin': '*',
+					'contentType': 'application/json',
+					 complete: function(data){
+						window.location.replace('/index.html');
+					}
+				});
+			});
 			jQuery('#demo1').skdslider({'delay':5000, 'animationSpeed': 2000,'showNextPrev':true,'showPlayButton':true,'autoSlide':true,'animationType':'fading'});
 
 			jQuery('#responsive').change(function(){
