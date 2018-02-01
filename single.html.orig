@@ -229,10 +229,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="agileinfo_single">
 
 				<div class="col-md-4 agileinfo_single_left">
-					<img id="example" src="images/si1.jpg" alt=" " class="img-responsive">
+					<img id="example" src="images/laptop.jpg" alt=" " class="img-responsive">
 				</div>
 				<div class="col-md-8 agileinfo_single_right">
-				<h2>KHARAMORRA Khakra - Hariyali</h2>
+				<h2>13-inch MacBook Pro</h2>
 					<div class="rating1">
 						<span class="starRating">
 							<input id="rating5" type="radio" name="rating" value="5">
@@ -249,28 +249,48 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					</div>
 					<div class="w3agile_description">
 						<h4>Description :</h4>
+<<<<<<< HEAD
+						<p>2.3GHz dual-core 7th-generation Intel Core i5 processor
+Turbo Boost up to 3.6GHz
+8GB 2133MHz LPDDR3 memory
+128GB SSD storage1
+Intel Iris Plus Graphics 640
+Two Thunderbolt 3 ports.</p>
+=======
 						<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
 							officia deserunt mollit anim id est laborum.Duis aute irure dolor in
 							reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
 							pariatur.</p>
+>>>>>>> 54d0cf84325671d38d692fb2aedfa3be4f00ddd8
 					</div>
 					<div class="snipcart-item block">
 						<div class="snipcart-thumb agileinfo_single_right_snipcart">
-							<h4 class="m-sing">$21.00 <span>$25.00</span></h4>
+							<h4 class="m-sing">$1,199.00 <span>$1,299.00</span></h4>
 						</div>
 						<div class="snipcart-details agileinfo_single_right_details">
-							<form action="#" method="post">
+							<form id="formSubmit" action="https://hackday-developer-edition.na78.force.com/services/apexrest/twillio">
 								<fieldset>
+									<input type="hidden" name="action" value="trackActivity">
+									<input type="hidden" name="cmId" value="" id="cmId">
+									<input type="hidden" name="productId" value="" id="productId">
+									<input type="hidden" name="activityStatus" value="Responded">
 									<input type="hidden" name="cmd" value="_cart">
-									<input type="hidden" name="add" value="1">
+									<input type="hidden" name="add" value="1" id="amountPurchased">
 									<input type="hidden" name="business" value=" ">
-									<input type="hidden" name="item_name" value="pulao basmati rice">
-									<input type="hidden" name="amount" value="21.00">
-									<input type="hidden" name="discount_amount" value="1.00">
+<<<<<<< HEAD
+									<input type="hidden" name="item_name" value="13-inch MacBook Pro">
+									<input type="hidden" name="amount" value="1199.00">
+									<input type="hidden" name="discount_amount" value="100.00">
+=======
+									<input type="hidden" name="item_name" value="KHARAMORRA Khakra - Hariyali">
+									<input type="hidden" name="amount" value="25.00">
+									<input type="hidden" name="discount_amount" value="4.00">
+>>>>>>> 54d0cf84325671d38d692fb2aedfa3be4f00ddd8
 									<input type="hidden" name="currency_code" value="USD">
 									<input type="hidden" name="return" value=" ">
 									<input type="hidden" name="cancel_return" value=" ">
-									<input type="submit" name="submit" value="Add to cart" class="button">
+									<input type="hidden" name="cmd" value="_cart">
+									<input type="submit" name="submit" value="BUY" class="button">
 								</fieldset>
 							</form>
 						</div>
@@ -552,7 +572,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				easingType: 'linear'
 				};
 			*/
+<<<<<<< HEAD
 
+=======
+			//$(".minicart-subtotal").append("<div style='float: right'><button onclick='alert(\"ciao\")'>Pay</button></div>");
+>>>>>>> 54d0cf84325671d38d692fb2aedfa3be4f00ddd8
 			$().UItoTop({ easingType: 'easeOutQuart' });
 
 			});
@@ -562,7 +586,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script>
 	// Mini Cart
 	paypal.minicart.render({
-		action: '#'
+		action: 'www.google.com',
+		strings: {
+        button: "Caisse"
+			}
 	});
 
 	if (~window.location.search.indexOf('reset=true')) {
@@ -573,13 +600,65 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="js/skdslider.min.js"></script>
 <link href="css/skdslider.css" rel="stylesheet">
 <script type="text/javascript">
+
+
 		jQuery(document).ready(function(){
+			var params = "";
+			function getJsonFromUrl() {
+			  var query = location.search.substr(1);
+			  var result = {};
+			  query.split("&").forEach(function(part) {
+			    var item = part.split("=");
+			    result[item[0]] = decodeURIComponent(item[1]);
+			  });
+			  return result;
+			}
+			params = getJsonFromUrl();
+			document.getElementById('cmId').value= params["cmId"] ;
+			document.getElementById('productId').value= params["productId"] ;
+
+			$.ajax({
+				url: 'https://hackday-developer-edition.na78.force.com/services/apexrest/twillio',
+				method: 'GET',
+				data: {action:'clicked',cmId:params["cmId"],activityStatus:"Clicked"},
+				dataType: 'json',
+				'Accept': '*',
+				'Access-Control-Allow-Origin': '*',
+				'contentType': 'application/json'
+			});
+
+
+
+			var amountPurchased = document.getElementById('amountPurchased').value;
+			$('#formSubmit').submit(function(event){
+				event.preventDefault();
+
+				$.ajax({
+					url: 'https://hackday-developer-edition.na78.force.com/services/apexrest/twillio',
+					method: 'GET',
+					data: {action:'trackActivity',cmId:params["cmId"],activityStatus:"Purchased",productId:params["productId"],amount:amountPurchased},
+					dataType: 'json',
+					'Accept': '*',
+					'Access-Control-Allow-Origin': '*',
+					'contentType': 'application/json',
+					 complete: function(data){
+						window.location.replace('/index.html');
+					}
+				});
+			});
+
+
+
 			jQuery('#demo1').skdslider({'delay':5000, 'animationSpeed': 2000,'showNextPrev':true,'showPlayButton':true,'autoSlide':true,'animationType':'fading'});
 
 			jQuery('#responsive').change(function(){
 			  $('#responsive_wrapper').width(jQuery(this).val());
 			});
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 54d0cf84325671d38d692fb2aedfa3be4f00ddd8
 		});
 </script>
 <!-- //main slider-banner -->
